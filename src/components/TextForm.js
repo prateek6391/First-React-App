@@ -5,20 +5,28 @@ export default function TextForm(props) {
         // console.log("Uppercase was clicked: " + text);
         let newText = text.toUpperCase();
         setText(newText)
+        props.showAlert("Converted to uppercase!",  "success");
     }
 
     const handleLOClick = ()=>{
         let newText = text.toLowerCase();
         setText(newText)
+        props.showAlert("Converted to lowercase!",  "success");
     }
 
     const handleCLRClick = ()=>{
         let newText = '';
         setText(newText)
+        props.showAlert("Text  Cleared!",  "success");
     }
+    /*
+    let [count, setCount] = useState(0);
+    let [count1, setCount1] = useState(0);
+    let countVow = 0,countCons = 0;
 
     const handleVowClick = () => {
         for (count = 0; count <= text.length; count++) {
+            vC++;
             if (text.charAt(count).match(/[aeiouAEIOU]/)) {
                 countVow++;
                 setCount(countVow);
@@ -34,11 +42,19 @@ export default function TextForm(props) {
             }
         }
     };
+    */
+   
+    const handleExtraSpaces = () => {
+        let nText = text.split(/[ ]+/);
+        setText(nText.join(" "));
+        props.showAlert("Extra Spaces Removed!",  "success");
+    }
 
     const handleCopy = () =>{
-        let text = document.getElementById("myBox");
-        text.select();
-        navigator.clipboard.writeText(text.value);
+        let textC = document.getElementById("myBox");
+        textC.select();
+        navigator.clipboard.writeText(textC.value);
+        props.showAlert("Copied To Clipboard!",  "success");
     }
 
     
@@ -51,30 +67,29 @@ export default function TextForm(props) {
     // text = "new Text";      //  Wrong way to change the state   
     // setText("new Text");      //  Wrong way to change the state 
     
-    let [count, setCount] = useState(0);
-    let [count1, setCount1] = useState(0);
-    let countVow = 0,countCons = 0;
-
   return (
     <>
-    <div>
+    <div className='container' style={{color: props.mode==='dark'?'white':'#042743'}}>
         <h1>{props.heading}</h1>
-        <div className="container mb-3">
-            <textarea className="form-control" value={text} onChange={handleOnChange} id="myBox" rows="8"></textarea>
+        <div className="container mb-3" >
+            <textarea className="form-control" value={text} style={{backgroundColor: props.mode==='light'?'white':'grey', color: props.mode==='dark'?'white':'#042743'}} onChange={handleOnChange} id="myBox" rows="8"></textarea>
         </div>
-        <button className="btn btn-primary mx-1" onClick={handleUPClick}>UpperCase</button>
-        <button className="btn btn-primary mx-1" onClick={handleLOClick}>LowerCase</button>
-        <button className="btn btn-primary mx-1" onClick={handleCLRClick}>Clear Text</button>
-        <button className="btn btn-primary mx-1" onClick={handleVowClick}>Count Vowel</button>
-        <button className="btn btn-primary mx-1" onClick={handleConClick}>Count Consonents</button>
-        <button className="btn btn-primary mx-1" onClick={handleCopy}>Copy Text</button>
+        <button className="btn btn-primary mx-1 my-1" onClick={handleUPClick}>UpperCase</button>
+        <button className="btn btn-primary mx-1 my-1" onClick={handleLOClick}>LowerCase</button>
+        <button className="btn btn-primary mx-1 my-1" onClick={handleCLRClick}>Clear Text</button>
+        {/* <button className="btn btn-primary mx-1 my-1" onClick={handleVowClick}>Count Vowel</button>
+        <button className="btn btn-primary mx-1 my-1" onClick={handleConClick}>Count Consonents</button> */}
+        <button className="btn btn-primary mx-1 my-1" onClick={handleCopy}>Copy Text</button>
+        <button className="btn btn-primary mx-1 my-1" onClick={handleExtraSpaces}>Handle Spaces</button>
+
     </div>
-    <div className="container my-3">
+    <div className="container my-3" style={{color: props.mode==='dark'?'white':'#042743'}}>
         <h2>Text Summary</h2>
-        <p>{text.split(" ").length} words, {text.length} characters</p>
-        <p>{count} No. of Vowels, {count1} No. of Consonants</p>
+        <p>{text.trim().length===0?0:text.trim().split(/[ ]+/).length} words, {text.trim().length===0?0: text.length} characters</p>
+        {/* <p>{text.length>0? `${count} No. of Vowels`:""}</p>
+        <p>{text.length>0? `${count1} No. of Consonants`:""}</p> */}
         <h2>Preview</h2>
-        <p>{text}</p>
+        <p>{text.length>0? text:"Enter something in the Text Box above to Preview it here"}</p>
     </div>
     </>
   )

@@ -54,6 +54,7 @@ export default function TextForm(props) {
         let textC = document.getElementById("myBox");
         textC.select();
         navigator.clipboard.writeText(textC.value);
+        document.getSelection().removeAllRanges();
         props.showAlert("Copied To Clipboard!",  "success");
     }
 
@@ -70,26 +71,26 @@ export default function TextForm(props) {
   return (
     <>
     <div className='container' style={{color: props.mode==='dark'?'white':'#042743'}}>
-        <h1>{props.heading}</h1>
+        <h1 className='mb-4'>{props.heading}</h1>
         <div className="container mb-3" >
-            <textarea className="form-control" value={text} style={{backgroundColor: props.mode==='light'?'white':'grey', color: props.mode==='dark'?'white':'#042743'}} onChange={handleOnChange} id="myBox" rows="8"></textarea>
+            <textarea className="form-control" value={text} style={{backgroundColor: props.mode==='light'?'white':'#13466e', color: props.mode==='dark'?'white':'#042743'}} onChange={handleOnChange} id="myBox" rows="8"></textarea>
         </div>
-        <button className="btn btn-primary mx-1 my-1" onClick={handleUPClick}>UpperCase</button>
-        <button className="btn btn-primary mx-1 my-1" onClick={handleLOClick}>LowerCase</button>
-        <button className="btn btn-primary mx-1 my-1" onClick={handleCLRClick}>Clear Text</button>
+        <button disabled={text.trim().length===0} className="btn btn-primary mx-1 my-1" onClick={handleUPClick}>UpperCase</button>
+        <button disabled={text.trim().length===0} className="btn btn-primary mx-1 my-1" onClick={handleLOClick}>LowerCase</button>
+        <button disabled={text.trim().length===0} className="btn btn-primary mx-1 my-1" onClick={handleCLRClick}>Clear Text</button>
         {/* <button className="btn btn-primary mx-1 my-1" onClick={handleVowClick}>Count Vowel</button>
         <button className="btn btn-primary mx-1 my-1" onClick={handleConClick}>Count Consonents</button> */}
-        <button className="btn btn-primary mx-1 my-1" onClick={handleCopy}>Copy Text</button>
-        <button className="btn btn-primary mx-1 my-1" onClick={handleExtraSpaces}>Handle Spaces</button>
+        <button disabled={text.trim().length===0} className="btn btn-primary mx-1 my-1" onClick={handleCopy}>Copy Text</button>
+        <button disabled={text.trim().length===0} className="btn btn-primary mx-1 my-1" onClick={handleExtraSpaces}>Handle Spaces</button>
 
     </div>
     <div className="container my-3" style={{color: props.mode==='dark'?'white':'#042743'}}>
         <h2>Text Summary</h2>
-        <p>{text.trim().length===0?0:text.trim().split(/[ ]+/).length} words, {text.trim().length===0?0: text.length} characters</p>
+        <p>{text.split(" ").filter((element)=>{return element.length!==0}).length} words, {text.trim().length===0?0: text.length} characters</p>
         {/* <p>{text.length>0? `${count} No. of Vowels`:""}</p>
         <p>{text.length>0? `${count1} No. of Consonants`:""}</p> */}
         <h2>Preview</h2>
-        <p>{text.length>0? text:"Enter something in the Text Box above to Preview it here"}</p>
+        <p>{text.length>0? text:"Nothing to preview!"}</p>
     </div>
     </>
   )

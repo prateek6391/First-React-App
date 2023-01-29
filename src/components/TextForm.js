@@ -51,10 +51,11 @@ export default function TextForm(props) {
     }
 
     const handleCopy = () =>{
-        let textC = document.getElementById("myBox");
-        textC.select();
-        navigator.clipboard.writeText(textC.value);
-        document.getSelection().removeAllRanges();
+        // let textC = document.getElementById("myBox");
+        // textC.select();
+        // navigator.clipboard.writeText(textC.value);
+        navigator.clipboard.writeText(text);
+        // document.getSelection().removeAllRanges();
         props.showAlert("Copied To Clipboard!",  "success");
     }
 
@@ -86,7 +87,7 @@ export default function TextForm(props) {
     </div>
     <div className="container my-3" style={{color: props.mode==='dark'?'white':'#042743'}}>
         <h2>Text Summary</h2>
-        <p>{text.split(" ").filter((element)=>{return element.length!==0}).length} words, {text.trim().length===0?0: text.length} characters</p>
+        <p>{text.split(/\s+/).filter((element)=>{return element.length!==0}).length} words, {text.trim().length===0?0: text.length} characters</p>
         {/* <p>{text.length>0? `${count} No. of Vowels`:""}</p>
         <p>{text.length>0? `${count1} No. of Consonants`:""}</p> */}
         <h2>Preview</h2>

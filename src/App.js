@@ -1,10 +1,16 @@
 // import logo from './logo.svg';
 import { useState } from 'react';
 import './App.css';
-// import About from './components/About';
+import React from "react";
+import About from './components/About';
 import Navbar from './components/Navbar';
 import TextForm from './components/TextForm';
 import Alert from './components/Alert';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
 
 // let name = "Prateek";
 function App() {
@@ -39,12 +45,20 @@ function App() {
     
 {/* <Navbar title="TextUtils" aboutText="About TextUtils" /> */}
 {/* <Navbar /> */}
-<Navbar title="TextUtils" mode={mode} toggleMode={toggleMode} />
-<Alert alert={alert}/>
-<div className="container my-3">
-  <TextForm showAlert={showAlert} heading="Enter The text to analyze below"  mode={mode}/>
-  {/* <About/> */}
-</div>
+<Router>
+  <Navbar title="TextUtils" mode={mode} toggleMode={toggleMode} />
+  <Alert alert={alert}/>
+  <div className="container my-3">
+    <Switch>
+      <Route exact path="/about">
+        <About />
+      </Route>
+      <Route exact path="/">
+        <TextForm showAlert={showAlert} heading="Enter The text to analyze below"  mode={mode}/>
+      </Route>
+    </Switch>
+  </div>
+  </Router>
 </>
   );
 }
